@@ -33,19 +33,20 @@ def save_file():
     global file
     if file == '':
         file = None
-    else:
-        file = open(file, "w")
-        file.write(text_area.get(1.0, END))
-        file.close()
-
     if file is None:
         file = fd.asksaveasfilename(initialfile='Untitled.txt', defaultextension='.txt',
-                                    filetypes=[("Text File", "*.txt*"), ("Word Document", '*,docx*'), ("PDF", "*.pdf*")])
+                                    filetypes=[("Text File", "*.txt*"), ("Word Document", '*,docx*'), ("PDF", "*.pdf*"), ("All Files", "*.*")])
+        if file == '':
+            file = None
+        else:
+            # Use a different variable to store the file object
+            with open(file, "w") as file_obj:
+                file_obj.write(text_area.get(1.0, END))
+            root.title(f"{os.path.basename(file)} - You really shouldn't have opened this. Your computer is infected now.")
     else:
-        file = open(file, "w")
-        file.write(text_area.get(1.0, END))
-        file.close()
-        root.title(f"{os.path.basename(file)} - Notepad")
+        # Use a different variable to store the file object
+        with open(file, "w") as file_obj:
+            file_obj.write(text_area.get(1.0, END))
 
 
 def exit_application():
@@ -97,7 +98,7 @@ Under the Edit Menu:
 
 # Initializing the window
 root = Tk()
-root.title("Untitled - Notepad")
+root.title("Untitled -  You really shouldn't have opened this. Your computer is infected now.")
 root.geometry('800x500')
 root.resizable(0, 0)
 
